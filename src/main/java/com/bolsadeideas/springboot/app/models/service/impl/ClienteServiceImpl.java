@@ -24,7 +24,7 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public List<Cliente> findByNombre(String term) {
 		return clienteDao.findByNombre(term);
-		
+
 	}
 
 	@Override
@@ -34,7 +34,22 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public void save(Cliente cliente) {
-		 clienteDao.save(cliente);
+		clienteDao.save(cliente);
+
+	}
+
+	@Override
+	public Cliente finlogin(String mombre, String apellido) {
+		Cliente c = clienteDao.finlogin(mombre, apellido);
+		
+		if (c != null) {
+			if (c.getApellido().equals(apellido)) {
+				System.out.println(c.getNombre() + "---------------->>>>>>>>>>>>");
+				return c;
+			}
+		}
+		
+		return null;
 		
 	}
 

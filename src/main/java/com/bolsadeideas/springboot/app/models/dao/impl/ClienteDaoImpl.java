@@ -62,4 +62,11 @@ public class ClienteDaoImpl implements ClienteDao {
 		
 	}
 
+	@Override
+	public Cliente finlogin(String mombre, String apellido) {
+		return jdbcTemplate.queryForObject("SELECT * FROM CLIENTES WHERE NOMBRE = ?",
+				BeanPropertyRowMapper.newInstance(Cliente.class), mombre);
+		
+	}
+
 }

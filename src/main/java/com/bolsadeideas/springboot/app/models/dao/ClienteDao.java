@@ -11,5 +11,6 @@ public interface ClienteDao {
 	public List<Cliente> findByNombre(String term); 
 	public Cliente findById(int id); 
 	public void save (Cliente  cliente); 
+	public Cliente finlogin (String mombre ,  String apellido); 
 
 }

@@ -1,6 +1,11 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,16 +32,12 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	
 	private String nombre;
 
-	
 	private String apellido;
 
-	
 	private String email;
 
-	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -80,6 +81,34 @@ public class Cliente implements Serializable {
 
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
+	}
+
+	public Cliente(Long id, String nombre, String apellido, String email, Date createAt) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.createAt = createAt;
+	}
+
+	public Cliente() {
+
+	}
+
+	public String getEdad() {
+		Date input = createAt;
+		LocalDate fechaNac = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+		LocalDate ahora = LocalDate.now();
+
+		Period periodo = Period.between(fechaNac, ahora);
+
+		System.out.printf("Tu edad es: %s años, %s meses y %s días", periodo.getYears(), periodo.getMonths(),
+				periodo.getDays());
+
+		return "" + periodo.getYears();
 	}
 
 }

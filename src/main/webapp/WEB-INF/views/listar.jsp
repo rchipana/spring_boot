@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@page session="true"%>
 <html>
 
 <head>
@@ -12,12 +13,12 @@
 
 </head>
 <body>
+	${cliente.nombre} ${fecha}
 	<div class="container">
 		<button class="btn btn-success nBtn">New</button>
-			<input id="filtrar"
-				type="text" class="form-control"
-				placeholder="Ingresa la canción de este Disco que deseas Buscar..."/>
-		
+		<input id="filtrar" type="text" class="form-control"
+			placeholder="Ingresa la canción de este Disco que deseas Buscar..." />
+
 		<div class="card">
 			<div class="card-block">
 				<table class="table table-hover" id="clienteTableResponse">
@@ -41,7 +42,7 @@
 								<td>${cliente.nombre}</td>
 								<td>${cliente.apellido}</td>
 								<td>${cliente.email}</td>
-								<td>${cliente.createAt}</td>
+								<td>${cliente.edad}</td>
 								<td><a href='/buscar_clientes/${cliente.id}'
 									class="btn btn-primary eBtn">Edit</a> <a
 									href='/buscar_clientes/${cliente.id}'> <input type="submit"
