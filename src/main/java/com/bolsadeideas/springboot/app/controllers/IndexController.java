@@ -61,7 +61,7 @@ public class IndexController {
 
 	public String parsearFecha(Date d) {
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		String formattedDate = formatter.format(d);
 		return formattedDate;
 		
