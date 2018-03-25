@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,7 +29,8 @@ public class ClienteDaoImpl implements ClienteDao {
 
 	@Override
 	public List<Cliente> findByNombre(String term) {
-		String sql = "select * from CLIENTES where (UPPER(nombre) like UPPER ('%" + term + "%') or UPPER(apellido) like UPPER ('%" + term + "%'))";
+		String sql = "select * from CLIENTES where (UPPER(nombre) like UPPER ('%" + term
+				+ "%') or UPPER(apellido) like UPPER ('%" + term + "%'))";
 		// Map<String, Object> params = new HashMap<String, Object>();
 
 		// params.put("name", term+"%");
@@ -50,23 +52,26 @@ public class ClienteDaoImpl implements ClienteDao {
 	public Cliente findById(int id) {
 		return jdbcTemplate.queryForObject("SELECT * FROM CLIENTES WHERE ID = ?",
 				BeanPropertyRowMapper.newInstance(Cliente.class), id);
-	
+
 	}
 
 	@Override
 	public void save(Cliente cliente) {
-		jdbcTemplate.update("INSERT INTO clientes (id, nombre, apellido, email, create_at) VALUES(?,?,?,?,?)", 
-				new Object[] {cliente.getId(), cliente.getNombre(), 
-						cliente.getApellido(), 
-						cliente.getEmail(), cliente.getCreateAt()});
-		
+		jdbcTemplate.update("INSERT INTO clientes (id, nombre, apellido, email, create_at) VALUES(?,?,?,?,?)",
+				new Object[] { cliente.getId(), cliente.getNombre(), cliente.getApellido(), cliente.getEmail(),
+						cliente.getCreateAt() });
+
 	}
 
 	@Override
 	public Cliente finlogin(String mombre, String apellido) {
-		return jdbcTemplate.queryForObject("SELECT * FROM CLIENTES WHERE NOMBRE = ?",
-				BeanPropertyRowMapper.newInstance(Cliente.class), mombre);
-		
+		try {
+			return jdbcTemplate.queryForObject("SELECT * FROM CLIENTES WHERE NOMBRE = ?",
+					BeanPropertyRowMapper.newInstance(Cliente.class), mombre);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+
 	}
 
 }

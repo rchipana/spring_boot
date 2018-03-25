@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,18 +41,20 @@ public class IndexController {
 		return "login";
 	}
 
-	@SuppressWarnings("unused")
+	
 	@PostMapping(value = "/login")
 	public String validarUsuario(@RequestParam String nombre, @RequestParam String apellido, HttpSession session,
 			Model model) throws Exception {
-
 		Cliente cliente = this.clienteService.finlogin(nombre, apellido);
-		System.out.println(cliente.getNombre() + "---------------->>>>>>>>>>>>");
+		
 
-		if (cliente == null) {
-			model.addAttribute("error", "eroorrrrrrrrrrrrrrrrrrrr");
-			return "redirect:/login";
-		}
+			if (cliente == null) {
+				model.addAttribute("error", "eroorrrrrrrrrrrrrrrrrrrr");
+				//session.setAttribute("error", "Error login");
+                return"login";
+			}
+		
+
 		session.setAttribute("cliente", cliente);
 		session.setAttribute("fecha", parsearFecha(new Date()));
 
@@ -64,7 +67,7 @@ public class IndexController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		String formattedDate = formatter.format(d);
 		return formattedDate;
-		
+
 	}
 
 }
